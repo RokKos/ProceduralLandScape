@@ -1,6 +1,6 @@
 ﻿//Author: Rok Kos <kosrok97@gmail.com>
 //File: NoiseClass.cs
-//File path: D:\Documents\Unity\ProceduralLandScape\Assets\MapDisplay.cs
+//File path: D:\Documents\Unity\ProceduralLandScape\Assets\Scripts\MapDisplay.cs
 //Date: 26.07.2016
 //Description:Script that displays map
 
@@ -24,7 +24,7 @@ public class MapDisplay : MonoBehaviour {
                 // colourMap is single dimentional array so by multipling i with height and adding j we
                 // get the right cordinate
                 // Color.Lerp interpolates between two colors
-                colourMap[i * height + j] = Color.Lerp(Color.black, Color.white, noiseMap[i,j]);
+                colourMap[i * width + j] = Color.Lerp(Color.black, Color.white, noiseMap[i,j]);
             }
         }
 

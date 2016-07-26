@@ -1,6 +1,6 @@
 ﻿//Author: Rok Kos <kosrok97@gmail.com>
 //File: NoiseClass.cs
-//File path: D:\Documents\Unity\ProceduralLandScape\Assets\MapGenerator.cs
+//File path: D:\Documents\Unity\ProceduralLandScape\Assets\Scripts\MapGenerator.cs
 //Date: 26.07.2016
 //Description:Script that generates map
 
@@ -15,6 +15,7 @@ public class MapGenerator : MonoBehaviour {
     int width;
     [SerializeField]
     float scale;
+    public bool autoUpdate;
 
     public void GenerateMap () {
         float[,] noiseMap = NoiseClass.GenerateNoiseMap(height, width, scale);

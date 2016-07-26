@@ -1,6 +1,6 @@
 ﻿//Author: Rok Kos <kosrok97@gmail.com>
 //File: NoiseClass.cs
-//File path: D:\Documents\Unity\ProceduralLandScape\Assets\NoiseClass.cs
+//File path: D:\Documents\Unity\ProceduralLandScape\Assets\Scripts\NoiseClass.cs
 //Date: 26.07.2016
 //Description: Class that will represent perlin noise
 
