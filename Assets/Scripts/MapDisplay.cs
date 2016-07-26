@@ -12,6 +12,10 @@ public class MapDisplay : MonoBehaviour {
     [SerializeField]
     Renderer textureRenderer;
 
+    /**
+    * @brief Draws noise map on 2d plane.
+    **/
+
     public void DrawNoiseMap (float[,] noiseMap) {
         int height = noiseMap.GetLength(0);
         int width = noiseMap.GetLength(1);

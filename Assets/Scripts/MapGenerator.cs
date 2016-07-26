@@ -15,13 +15,42 @@ public class MapGenerator : MonoBehaviour {
     int width;
     [SerializeField]
     float scale;
+    [SerializeField]
+    int octaves;
+    [Range(0,1)]
+    [SerializeField]
+    float persistance;
+    [SerializeField]
+    float lacunarity;
+    [SerializeField]
+    int seed;
+    [SerializeField]
+    Vector2 offset;
+
     public bool autoUpdate;
 
     public void GenerateMap () {
-        float[,] noiseMap = NoiseClass.GenerateNoiseMap(height, width, scale);
+        float[,] noiseMap = NoiseClass.GenerateNoiseMap(height, width, seed, scale, octaves, persistance, lacunarity, offset);
 
         MapDisplay mapDisplay = FindObjectOfType<MapDisplay>();
         mapDisplay.DrawNoiseMap(noiseMap);
     }
 
+
+    // Funtion that is called every time when value in inspector is changed
+    // and it basicly doesnt let value to drob belo1
+    void OnValidate () {
+        if (height < 1) {
+            height = 1;
+        }
+        if (width < 1) {
+            width = 1;
+        }
+        if (lacunarity < 1) {
+            lacunarity = 1;
+        }
+        if (octaves < 1) {
+            octaves = 1;
+        }
+    }
 }
