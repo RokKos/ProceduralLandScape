@@ -40,6 +40,4 @@ public class NoiseClass {
         return noiseMap;
     }
 
-
 }
-
