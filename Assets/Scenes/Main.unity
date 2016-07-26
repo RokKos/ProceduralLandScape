@@ -375,13 +375,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   height: 100
   width: 100
-  scale: 15.9200001
+  scale: 20
   octaves: 4
-  persistance: .523999989
+  persistance: .5
   lacunarity: 2
   seed: 1
   offset: {x: 0, y: 0}
   autoUpdate: 1
+  drawMode: 1
+  terrainRegions:
+  - nameOfTerrain: Water
+    height: .200000003
+    color: {r: .158620819, g: 0, b: 1, a: 1}
+  - nameOfTerrain: Sand
+    height: .400000006
+    color: {r: .871882915, g: .882352948, b: .123269908, a: 0}
+  - nameOfTerrain: Grass
+    height: .600000024
+    color: {r: .117241383, g: 1, b: 0, a: 0}
+  - nameOfTerrain: Mountain
+    height: .800000012
+    color: {r: .448529422, g: .231998026, b: 0, a: 0}
+  - nameOfTerrain: Peek
+    height: 1
+    color: {r: 1, g: 1, b: 1, a: 0}
 --- !u!4 &2113575311
 Transform:
   m_ObjectHideFlags: 0

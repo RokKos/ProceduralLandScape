@@ -29,11 +29,42 @@ public class MapGenerator : MonoBehaviour {
 
     public bool autoUpdate;
 
+    [System.Serializable] // Showing in the inspector
+    public struct TerrainType {
+        public string nameOfTerrain;
+        public float height;
+        public Color color;
+    }
+
+    public enum DrawMode { NoiseMap, ColorMap};
+    public DrawMode drawMode;
+
+    public TerrainType[] terrainRegions; 
+
     public void GenerateMap () {
         float[,] noiseMap = NoiseClass.GenerateNoiseMap(height, width, seed, scale, octaves, persistance, lacunarity, offset);
 
+        Color[] colorMap = new Color[height * width];
+
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                float currHeight = noiseMap[i, j];
+                for (int k = 0; k < terrainRegions.Length; ++k) {
+                    if (currHeight <= terrainRegions[k].height) {
+                        colorMap[i * width + j] = terrainRegions[k].color;
+                        break;
+                    }
+                }
+            }
+       }
+
         MapDisplay mapDisplay = FindObjectOfType<MapDisplay>();
-        mapDisplay.DrawNoiseMap(noiseMap);
+        if (drawMode == DrawMode.NoiseMap) {
+            mapDisplay.DrawTexture(TextureGenerator.TextureFromNoisetMap(noiseMap));
+        } else {
+            mapDisplay.DrawTexture(TextureGenerator.TextureToColorMap(colorMap, width, height));
+        }
+        
     }
 
 

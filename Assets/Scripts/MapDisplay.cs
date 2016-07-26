@@ -16,27 +16,11 @@ public class MapDisplay : MonoBehaviour {
     * @brief Draws noise map on 2d plane.
     **/
 
-    public void DrawNoiseMap (float[,] noiseMap) {
-        int height = noiseMap.GetLength(0);
-        int width = noiseMap.GetLength(1);
+    public void DrawTexture (Texture2D texture) {
 
-        Texture2D texture = new Texture2D(height, width);
-
-        Color[] colourMap = new Color[width * height];
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                // colourMap is single dimentional array so by multipling i with height and adding j we
-                // get the right cordinate
-                // Color.Lerp interpolates between two colors
-                colourMap[i * width + j] = Color.Lerp(Color.black, Color.white, noiseMap[i,j]);
-            }
-        }
-
-        texture.SetPixels(colourMap);
-        texture.Apply();
 
         // Setting texture to renderer
         textureRenderer.sharedMaterial.mainTexture = texture;
-        textureRenderer.transform.localScale = new Vector3(height, 0, width);
+        textureRenderer.transform.localScale = new Vector3(texture.width, 0, texture.height);
     }
 }
