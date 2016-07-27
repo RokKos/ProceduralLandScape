@@ -8,11 +8,9 @@ using UnityEngine;
 using System.Collections;
 
 public class MapGenerator : MonoBehaviour {
-
+    [Range(0,6)]
     [SerializeField]
-    int height;
-    [SerializeField]
-    int width;
+    int leveleOfDetail;
     [SerializeField]
     float scale;
     [SerializeField]
@@ -43,19 +41,21 @@ public class MapGenerator : MonoBehaviour {
     public enum DrawMode { NoiseMap, ColorMap, DrawMesh};
     public DrawMode drawMode;
 
-    public TerrainType[] terrainRegions; 
+    public TerrainType[] terrainRegions;
+
+    public const int mapChunkSize = 241;
 
     public void GenerateMap () {
-        float[,] noiseMap = NoiseClass.GenerateNoiseMap(height, width, seed, scale, octaves, persistance, lacunarity, offset);
+        float[,] noiseMap = NoiseClass.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, scale, octaves, persistance, lacunarity, offset);
 
-        Color[] colorMap = new Color[height * width];
+        Color[] colorMap = new Color[mapChunkSize * mapChunkSize];
 
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
+        for (int i = 0; i < mapChunkSize; ++i) {
+            for (int j = 0; j < mapChunkSize; ++j) {
                 float currHeight = noiseMap[i, j];
                 for (int k = 0; k < terrainRegions.Length; ++k) {
                     if (currHeight <= terrainRegions[k].height) {
-                        colorMap[i * width + j] = terrainRegions[k].color;
+                        colorMap[i * mapChunkSize + j] = terrainRegions[k].color;
                         break;
                     }
                 }
@@ -69,11 +69,11 @@ public class MapGenerator : MonoBehaviour {
                 mapDisplay.DrawTexture(TextureGenerator.TextureFromNoisetMap(noiseMap));
                 break;
             case DrawMode.ColorMap:
-                mapDisplay.DrawTexture(TextureGenerator.TextureToColorMap(colorMap, width, height));
+                mapDisplay.DrawTexture(TextureGenerator.TextureToColorMap(colorMap, mapChunkSize, mapChunkSize));
                 break;
 
             case DrawMode.DrawMesh:
-                mapDisplay.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, heightMultiplier, meshHeigthCurve), TextureGenerator.TextureToColorMap(colorMap, width, height));
+                mapDisplay.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, heightMultiplier, meshHeigthCurve, leveleOfDetail), TextureGenerator.TextureToColorMap(colorMap, mapChunkSize, mapChunkSize));
                 break;
             default:
                 mapDisplay.DrawTexture(TextureGenerator.TextureFromNoisetMap(noiseMap));
@@ -86,12 +86,6 @@ public class MapGenerator : MonoBehaviour {
     // Funtion that is called every time when value in inspector is changed
     // and it basicly doesnt let value to drob belo1
     void OnValidate () {
-        if (height < 1) {
-            height = 1;
-        }
-        if (width < 1) {
-            width = 1;
-        }
         if (lacunarity < 1) {
             lacunarity = 1;
         }

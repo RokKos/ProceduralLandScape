@@ -1,9 +1,15 @@
-﻿using UnityEngine;
+﻿//Author: Rok Kos <kosrok97@gmail.com>
+//File: MeshGenerator.cs
+//File path: D:\Documents\Unity\ProceduralLandScape\Assets\Editor\MeshGenerator.cs
+//Date: 27.07.2016
+//Description: Script that generates our mesh
+
+using UnityEngine;
 using System.Collections;
 
 public static class MeshGenerator {
 
-    public static MeshData GenerateTerrainMesh (float[,] noiseMap, float heightMultiplier, AnimationCurve heightCurve) {
+    public static MeshData GenerateTerrainMesh (float[,] noiseMap, float heightMultiplier, AnimationCurve heightCurve, int  levelOfDetail) {
         int height = noiseMap.GetLength(0);
         int width = noiseMap.GetLength(1);
         
@@ -11,18 +17,23 @@ public static class MeshGenerator {
         float topLeftX = (width - 1) / -2.0f;
         float topLeftZ = (height - 1) / 2.0f;
 
-        MeshData meshData = new MeshData(height, width);
+        // If levelOfDeteail is 0 then change to 1 else multiplie by 2
+        // This is because we dont get stuck in infinity loop
+        int detailIncrement = (levelOfDetail == 0) ? 1 : levelOfDetail * 2;
+
+        int verticesPerLine = (width - 1) / detailIncrement + 1;
+        MeshData meshData = new MeshData(verticesPerLine, verticesPerLine);
         int vertexIndex = 0;
 
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
+        for (int i = 0; i < height; i += detailIncrement) {
+            for (int j = 0; j < width; j += detailIncrement) {
                 // Height Curve gives us coresponding value based on passed value
                 meshData.vertices[vertexIndex] = new Vector3(topLeftX + j, noiseMap[i, j] * heightCurve.Evaluate(noiseMap[i, j]) * heightMultiplier, topLeftZ - i);
                 meshData.UVMaps[vertexIndex] = new Vector2(j / (float)width, i / (float)height);
 
                 if (j < width - 1 && i < height - 1) {
-                    meshData.AddTringle(vertexIndex, vertexIndex + width + 1, vertexIndex + width);
-                    meshData.AddTringle(vertexIndex + width + 1, vertexIndex, vertexIndex + 1);
+                    meshData.AddTringle(vertexIndex, vertexIndex + verticesPerLine + 1, vertexIndex + verticesPerLine);
+                    meshData.AddTringle(vertexIndex + verticesPerLine + 1, vertexIndex, vertexIndex + 1);
                 }
 
                 vertexIndex++;

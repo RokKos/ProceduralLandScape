@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿//Author: Rok Kos <kosrok97@gmail.com>
+//File: TextureGenerator.cs
+//File path: D:\Documents\Unity\ProceduralLandScape\Assets\Editor\TextureGenerator.cs
+//Date: 27.07.2016
+//Description: Script that creates colored textures
+
+using UnityEngine;
 using System.Collections;
 
 public static class TextureGenerator {
