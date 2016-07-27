@@ -26,6 +26,10 @@ public class MapGenerator : MonoBehaviour {
     int seed;
     [SerializeField]
     Vector2 offset;
+    [SerializeField]
+    float heightMultiplier;
+    [SerializeField]
+    AnimationCurve meshHeigthCurve;
 
     public bool autoUpdate;
 
@@ -69,7 +73,7 @@ public class MapGenerator : MonoBehaviour {
                 break;
 
             case DrawMode.DrawMesh:
-                mapDisplay.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap), TextureGenerator.TextureToColorMap(colorMap, width, height));
+                mapDisplay.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, heightMultiplier, meshHeigthCurve), TextureGenerator.TextureToColorMap(colorMap, width, height));
                 break;
             default:
                 mapDisplay.DrawTexture(TextureGenerator.TextureFromNoisetMap(noiseMap));

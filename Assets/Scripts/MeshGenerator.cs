@@ -3,7 +3,7 @@ using System.Collections;
 
 public static class MeshGenerator {
 
-    public static MeshData GenerateTerrainMesh (float[,] noiseMap) {
+    public static MeshData GenerateTerrainMesh (float[,] noiseMap, float heightMultiplier, AnimationCurve heightCurve) {
         int height = noiseMap.GetLength(0);
         int width = noiseMap.GetLength(1);
         
@@ -16,7 +16,8 @@ public static class MeshGenerator {
 
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                meshData.vertices[vertexIndex] = new Vector3(topLeftX + j, noiseMap[i,j], topLeftZ - i);
+                // Height Curve gives us coresponding value based on passed value
+                meshData.vertices[vertexIndex] = new Vector3(topLeftX + j, noiseMap[i, j] * heightCurve.Evaluate(noiseMap[i, j]) * heightMultiplier, topLeftZ - i);
                 meshData.UVMaps[vertexIndex] = new Vector2(j / (float)width, i / (float)height);
 
                 if (j < width - 1 && i < height - 1) {
