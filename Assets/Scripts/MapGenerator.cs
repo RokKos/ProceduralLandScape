@@ -36,7 +36,7 @@ public class MapGenerator : MonoBehaviour {
         public Color color;
     }
 
-    public enum DrawMode { NoiseMap, ColorMap};
+    public enum DrawMode { NoiseMap, ColorMap, DrawMesh};
     public DrawMode drawMode;
 
     public TerrainType[] terrainRegions; 
@@ -59,10 +59,21 @@ public class MapGenerator : MonoBehaviour {
        }
 
         MapDisplay mapDisplay = FindObjectOfType<MapDisplay>();
-        if (drawMode == DrawMode.NoiseMap) {
-            mapDisplay.DrawTexture(TextureGenerator.TextureFromNoisetMap(noiseMap));
-        } else {
-            mapDisplay.DrawTexture(TextureGenerator.TextureToColorMap(colorMap, width, height));
+
+        switch (drawMode) {
+            case DrawMode.NoiseMap:
+                mapDisplay.DrawTexture(TextureGenerator.TextureFromNoisetMap(noiseMap));
+                break;
+            case DrawMode.ColorMap:
+                mapDisplay.DrawTexture(TextureGenerator.TextureToColorMap(colorMap, width, height));
+                break;
+
+            case DrawMode.DrawMesh:
+                mapDisplay.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap), TextureGenerator.TextureToColorMap(colorMap, width, height));
+                break;
+            default:
+                mapDisplay.DrawTexture(TextureGenerator.TextureFromNoisetMap(noiseMap));
+                break;
         }
         
     }

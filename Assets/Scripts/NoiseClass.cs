@@ -77,8 +77,6 @@ public class NoiseClass {
                 noiseMap[i, j] = noiseHeight;
             }
         }
-        Debug.Log(minNoiseHeight);
-        Debug.Log(maxNoiseHeight);
 
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
